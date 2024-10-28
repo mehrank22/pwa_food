@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - master  # این را به شاخه‌ای که می‌خواهید از آن deploy کنید تغییر دهید.
+      - master  # این شاخه را به شاخه‌ای که می‌خواهید از آن deploy کنید تغییر دهید
 
 jobs:
   deploy:
@@ -18,8 +18,8 @@ jobs:
           SERVER_IP: ${{ secrets.SERVER_IP }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-  run: |
-    echo "Deploying to server..."
-    sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT $USERNAME@$SERVER_IP 'mkdir -p /files/public_html/menutest'
-    sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -P $SSH_PORT -r ./* $USERNAME@$SERVER_IP:/files/public_html/menutest
+          SSH_PORT: ${{ secrets.SSH_PORT }}  # پورت SSH هاستینگر (یا هر پورت دیگری)
+        run: |
+          echo "Deploying to server..."
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT $USERNAME@$SERVER_IP 'mkdir -p /files/public_html/menutest'
+          sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -P $SSH_PORT -r ./* $USERNAME@$SERVER_IP:/files/public_html/menutesty
