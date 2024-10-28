@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./"  # مسیر پوشه‌ای که می‌خواهید دیپلوی کنید
-          server-dir: "//files/public_html/menutest"  # مسیر پوشه مقصد در هاست
+          server-dir: "/public_html/menutest"  # مسیر پوشه مقصد در هاست
