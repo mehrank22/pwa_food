@@ -1,25 +1,23 @@
-name: Deploy to Server
+name: Deploy to FTP Server
 
 on:
   push:
     branches:
-      - master  # این شاخه را به شاخه‌ای که می‌خواهید از آن deploy کنید تغییر دهید
+      - master  # تغییر به شاخه‌ای که می‌خواهید از آن deploy کنید
 
 jobs:
-  deploy:
+  ftp-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Server
-        env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}  # پورت SSH هاستینگر (یا هر پورت دیگری)
-        run: |
-          echo "Deploying to server..."
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT $USERNAME@$SERVER_IP 'mkdir -p /files/public_html/menutest'
-          sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -P $SSH_PORT -r ./* $USERNAME@$SERVER_IP:/files/public_html/menutesty
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: "./"  # مسیر پوشه‌ای که می‌خواهید دیپلوی کنید
+          server-dir: "//files/public_html/menutest"  # مسیر پوشه مقصد در هاست
