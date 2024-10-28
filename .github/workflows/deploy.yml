@@ -18,7 +18,8 @@ jobs:
           SERVER_IP: ${{ secrets.SERVER_IP }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-        run: |
-          echo "Deploying to server..."
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP 'mkdir -p /menutest'
-          sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r ./* $USERNAME@$SERVER_IP:/menutest
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+  run: |
+    echo "Deploying to server..."
+    sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT $USERNAME@$SERVER_IP 'mkdir -p /files/public_html/menutest'
+    sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -P $SSH_PORT -r ./* $USERNAME@$SERVER_IP:/files/public_html/menutest
